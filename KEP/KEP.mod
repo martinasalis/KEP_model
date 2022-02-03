@@ -4,7 +4,6 @@
  * Creation Date: Feb 2, 2022 at 11:15:43 AM
  *********************************************/
 
-// uno dei due è 0, è valido quello diverso da 0
 tuple delta
 {
   	// archi uscenti
@@ -22,38 +21,18 @@ tuple pair
 	string patient;
 }
 
-
 tuple vertex
 {
 	string type;
 	delta d;
-	string AD;
-	string B;
-	pair P;
-}
-
-
-/* uno dei due è 0, è valido quello diverso da 0
-tuple donator
-{
+	// NDD -> donatori non diretti AD + B
 	// donatori altruisti
 	string AD;
 	// donatori ponte
 	string B;
-	int flag;
-}
-
-// uno dei due (N o P) è 0, è valido quello diverso da 0
-tuple vertex
-{
-	// NDD -> donatori non diretti
-	donator N;
 	// coppie donatore-paziente non compatibili
-	string P;
-	delta d;
-	int flag;
+	pair P;
 }
-*/
 
 {vertex} V;
 
@@ -63,6 +42,29 @@ int w[E];
 int f_in[V];
 int f_out[V];
 
-maximize sum(e in E) (w[e] * w[e]);
  
 dvar int+ y[E];
+
+maximize sum(e in E) (w[e] * w[e]);
+
+subject to
+{
+	forall(v in V)
+    	sum(e in v.d.delta_m)
+			y[e] == f_in[v];
+			
+	forall(v in V)
+    	sum(e in v.d.delta_p)
+			y[e] == f_out[v];		
+
+	forall(v in V)
+	  	if(v.type == "P")
+    		f_out[v] <= f_in[v] <= 1;
+    		
+    forall(v in V)
+	  	if(v.type == "AD" || v.type == "B")
+    		f_out[v] <= 1;
+    
+    forall(e in E)
+      	y[e] == 0 || y[e] == 1;	
+}
