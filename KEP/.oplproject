@@ -3,7 +3,38 @@
     <version>1.0</version>
     	
     <configs>
-	</configs>
+        		
+        <config default="true" name="Example_1" category="opl">
+            			
+            <ref name="KEP.mod" type="model">
+			</ref>
+            			
+            <ref name="Example_1.dat" type="data">
+			</ref>
+            		
+        </config>
+        		
+        <config default="false" name="Example_2" category="opl">
+            			
+            <ref name="KEP.mod" type="model">
+			</ref>
+            			
+            <ref name="Example_2.dat" type="data">
+			</ref>
+            		
+        </config>
+        		
+        <config default="false" name="Example_3" category="opl">
+            			
+            <ref name="KEP.mod" type="model">
+			</ref>
+            			
+            <ref name="Example_3.dat" type="data">
+			</ref>
+            		
+        </config>
+        	
+    </configs>
     	
 
 </project>
